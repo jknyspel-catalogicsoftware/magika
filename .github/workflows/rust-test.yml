@@ -23,11 +23,8 @@ jobs:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # pin@v4
       - run: cargo build --release --features=bin --bin magika
         working-directory: rust
-      - name: 'ls'
-        run: ls -lR > ls-output.txt
-        working-directory: rust
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: ls-output
-          path: rust/ls-output.txt
+          name: magika
+          path: rust/target/release/magika
