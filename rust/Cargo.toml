@@ -40,5 +40,4 @@ default-features = false
 features = ["ndarray"]
 
 [features]
-tokio = ["dep:tokio"]
-bin = ["dep:anyhow", "dep:clap", "tokio", "tokio/full", "ort/download-binaries"]
+bin = ["anyhow", "clap", "tokio", "tokio/full", "ort/download-binaries"]
