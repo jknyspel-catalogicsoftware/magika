@@ -21,10 +21,7 @@ jobs:
     runs-on: "ubuntu-22.04"
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # pin@v4
-      - run: rustup update
-      - run: cargo update -n
-        working-directory: rust
-      - run: docker run --rm -v "$(pwd)":/home/rust/src ekidd/rust-musl-builder cargo build --release --features=bin --bin magika
+      - run: docker run --rm -v "$(pwd)":/home/rust/src ekidd/rust-musl-builder cargo update -n && cargo build --release --features=bin --bin magika
         working-directory: rust
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
