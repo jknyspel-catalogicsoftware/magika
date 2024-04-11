@@ -21,8 +21,15 @@ jobs:
     runs-on: "ubuntu-22.04"
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # pin@v4
+      - name: 'Clone ONNX Runtime Source'
+        run: git clone --recursive https://github.com/Microsoft/onnxruntime.git
+      - name: 'Run ONNX build script'
+        run: ./build.sh --build --config Release --parallel --compile_no_warning_as_error --skip_submodule_sync
+        working-directory: onnxruntime
       - run: rustup target add x86_64-unknown-linux-musl 
       - run: cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika
+        env: 
+          ORT_LIB_LOCATION: ../onnxruntime/build/Linux
         working-directory: rust
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
