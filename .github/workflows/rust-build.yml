@@ -24,15 +24,26 @@ jobs:
       - name: 'Clone ONNX Runtime Source'
         run: git clone --recursive https://github.com/Microsoft/onnxruntime.git
       - run: cmake -S cmake -B build/Linux/Release
-      #- run: rm -f cmake/CMakeCache.txt
         working-directory: onnxruntime
       - name: 'Run ONNX build script'
         run: ./build.sh --build --config Release --parallel --compile_no_warning_as_error --skip_submodule_sync
         working-directory: onnxruntime
+      - run: ls -alRh onnxruntime/build/Linux > ls-output.txt
+      - name: "Store 'ls' Output"
+        uses: actions/upload-artifact@v4
+        with:
+          name: ls-output.txt
+          path: ls-output.txt
+      - run: zip onnx-build-result.zip onnxruntime/build/Linux/**
+      - name: "Store built ONNX Runtime"
+        uses: actions/upload-artifact@v4
+        with:
+          name: onnx-build-result.zip
+          path: onnx-build-result.zip
       - run: rustup target add x86_64-unknown-linux-musl 
       - run: cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika
         env: 
-          ORT_LIB_LOCATION: ../onnxruntime/build/Linux/Release
+          ORT_LIB_LOCATION: "$(dirname $(pwd))/onnxruntime/build/Linux/Release"
         working-directory: rust
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
