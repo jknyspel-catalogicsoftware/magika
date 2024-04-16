@@ -28,8 +28,8 @@ jobs:
       - name: Checkout v1.16.0
         run: git checkout v1.16.0 -b build
         working-directory: onnxruntime
-      - run: cmake -S cmake -B build/Linux/Release
-        working-directory: onnxruntime
+      #- run: cmake -S cmake -B build/Linux/Release
+      #  working-directory: onnxruntime
       - name: 'Run ONNX build script'
         run: ./build.sh --build --config Release --parallel --compile_no_warning_as_error --skip_submodule_sync
         working-directory: onnxruntime
