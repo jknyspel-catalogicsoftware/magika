@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # pin@v4
       - name: 'Clone ONNX Runtime Source'
         run: git clone --recursive https://github.com/Microsoft/onnxruntime.git
+      - name: Checkout v1.16.3
+        run: git checkout tags/v1.16.3 -b build
       - run: cmake -S cmake -B build/Linux/Release
         working-directory: onnxruntime
       - name: 'Run ONNX build script'
@@ -34,7 +36,7 @@ jobs:
         with:
           name: ls-output.txt
           path: ls-output.txt
-      - run: zip onnx-build-result.zip onnxruntime/build/Linux/**
+      - run: zip onnx-build-result.zip onnxruntime/build/Linux/Release/**
       - name: "Store built ONNX Runtime"
         uses: actions/upload-artifact@v4
         with:
