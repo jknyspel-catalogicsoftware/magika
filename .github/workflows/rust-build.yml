@@ -25,7 +25,7 @@ jobs:
         run: git clone --recursive https://github.com/Microsoft/onnxruntime.git
       - run: git fetch --all --tags
       - name: Checkout v1.16.3
-        run: git checkout tags/v1.16.3 -b build
+        run: git checkout v1.16.3 -b build
       - run: cmake -S cmake -B build/Linux/Release
         working-directory: onnxruntime
       - name: 'Run ONNX build script'
