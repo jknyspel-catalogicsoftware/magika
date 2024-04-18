@@ -70,7 +70,7 @@ impl<Config: Borrow<MagikaConfig>> MagikaSession<Config> {
         let session = self.session.lock()?;
         let mut output = session.run(ort::inputs!("bytes" => input)?)?;
         let output = output.remove("target_label").unwrap();
-        let output = output.extract_tensor()?;
+        let output = output.try_extract_tensor()?;
         Ok(self.config.borrow().convert_output(output))
     }
 }

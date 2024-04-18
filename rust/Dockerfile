@@ -22,9 +22,10 @@ RUN mkdir -p /build/onnxruntime && if [ ! "$(ls -A /build/onnxruntime)" ]; then 
 
 WORKDIR /build/onnxruntime
 RUN git fetch --all --tags
-RUN git checkout v1.16.3 -b build
+RUN git checkout v1.17.0 -b build
 RUN cmake cmake -S cmake -B "build/Linux/Release"
 RUN ./build.sh --build --config Release --compile_no_warning_as_error --skip_submodule_sync --allow_running_as_root
 
 WORKDIR /build/rust
+ENV ORT_LIB_LOCATION="$(dirname $(pwd))/onnxruntime/build/Linux/Release"
 RUN cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika

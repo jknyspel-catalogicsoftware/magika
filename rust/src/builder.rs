@@ -77,10 +77,10 @@ impl<Config> MagikaBuilder<Config> {
             parallel_execution,
         } = builder;
         if let Some(num_threads) = inter_threads {
-            session = session.with_inter_threads(num_threads)?;
+            session = session.with_inter_threads(num_threads.try_into().unwrap())?;
         }
         if let Some(num_threads) = intra_threads {
-            session = session.with_intra_threads(num_threads)?;
+            session = session.with_intra_threads(num_threads.try_into().unwrap())?;
         }
         if let Some(opt_level) = optimization_level {
             session = session.with_optimization_level(opt_level)?;
@@ -88,7 +88,7 @@ impl<Config> MagikaBuilder<Config> {
         if let Some(parallel_execution) = parallel_execution {
             session = session.with_parallel_execution(parallel_execution)?;
         }
-        let session = session.with_model_from_file(model_dir.join("model.onnx"))?;
+        let session = session.commit_from_file(model_dir.join("model.onnx"))?;
         let session = Mutex::new(session);
         Ok(MagikaSession { session, config })
     }

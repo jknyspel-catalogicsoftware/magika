@@ -18,7 +18,7 @@ use std::pin::Pin;
 use std::task::{Context, Poll, RawWaker, RawWakerVTable, Waker};
 
 use futures::Future;
-use ort::Tensor;
+use ndarray::ArrayViewD;
 use serde::Deserialize;
 
 use crate::input::{MagikaAsyncInputApi, MagikaSyncInputApi};
@@ -73,9 +73,9 @@ impl MagikaConfig {
         Ok(MagikaFeatures(extract_features_async(file).await?))
     }
 
-    pub(crate) fn convert_output(&self, tensor: Tensor<f32>) -> Vec<MagikaOutput> {
+    pub(crate) fn convert_output(&self, tensor: ArrayViewD<f32>) -> Vec<MagikaOutput> {
         let mut results = Vec::new();
-        for view in tensor.view().axis_iter(ndarray::Axis(0)) {
+        for view in tensor.axis_iter(ndarray::Axis(0)) {
             let scores = view.to_slice().unwrap();
             let mut best = 0;
             for (i, &x) in scores.iter().enumerate() {
