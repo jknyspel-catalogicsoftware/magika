@@ -7,11 +7,9 @@ on:
       - 'main'
     paths:
       - 'js/**'
-      - '.github/workflows/**'
   pull_request:
     paths:
       - 'js/**'
-      - '.github/workflows/**'
 permissions:
   contents: read
 jobs:

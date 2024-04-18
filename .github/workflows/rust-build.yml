@@ -7,11 +7,11 @@ on:
       - 'main'
     paths:
       - 'rust/**'
-      - '.github/workflows/**'
+      - '.github/workflows/rust-build.yml'
   pull_request:
     paths:
       - 'rust/**'
-      - '.github/workflows/**'
+      - '.github/workflows/rust-build.yml'
 
 permissions:
   contents: read
