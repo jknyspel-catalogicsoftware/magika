@@ -28,5 +28,5 @@ RUN cmake cmake -S cmake -B "build/Linux/Release"
 RUN ./build.sh --build --config Release --compile_no_warning_as_error --skip_submodule_sync --allow_running_as_root
 
 WORKDIR /build/rust
-ENV ORT_LIB_LOCATION="$(dirname $(pwd))/onnxruntime/build/Linux/Release"
+ENV ORT_LIB_LOCATION="$(dirname $(pwd))/onnxruntime/build/Linux"
 RUN cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika
