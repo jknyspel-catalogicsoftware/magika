@@ -18,7 +18,8 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup target add x86_64-unknown-linux-musl
 
 RUN mkdir -p /build/onnxruntime && if [ ! "$(ls -A /build/onnxruntime)" ]; then \
-    git clone "https://github.com/microsoft/onnxruntime"
+    git clone "https://github.com/microsoft/onnxruntime" \
+    fi
 
 WORKDIR /build/onnxruntime
 RUN git fetch --all --tags
