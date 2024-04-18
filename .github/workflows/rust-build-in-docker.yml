@@ -1,0 +1,22 @@
+name: Rust - build in Docker
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'rust/**'
+      - '.github/workflows/rust-build-in-docker.yml'
+  pull_request:
+    paths:
+      - 'rust/**'
+      - '.github/workflows/rust-build-in-docker.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag rust-build:$(date +%s)
