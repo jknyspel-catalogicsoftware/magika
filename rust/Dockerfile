@@ -17,13 +17,14 @@ RUN curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup target add x86_64-unknown-linux-musl
 
-RUN git clone "https://github.com/microsoft/onnxruntime"
+RUN mkdir -p /build/onnxruntime && if [ ! "$(ls -A /build/onnxruntime)" ]; then \
+    git clone "https://github.com/microsoft/onnxruntime"
 
 WORKDIR /build/onnxruntime
 RUN git fetch --all --tags
 RUN git checkout v1.16.3 -b build
 RUN cmake cmake -S cmake -B "build/Linux/Release"
-RUN ./build.sh --build --config Release --parallel --compile_no_warning_as_error --skip_submodule_sync --allow_running_as_root
+RUN ./build.sh --build --config Release --compile_no_warning_as_error --skip_submodule_sync --allow_running_as_root
 
-WORKDIR /rust
+WORKDIR /build/rust
 RUN cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika
