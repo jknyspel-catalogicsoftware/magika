@@ -34,9 +34,7 @@ jobs:
         run: ./build.sh --build --config Release --parallel --compile_no_warning_as_error --skip_submodule_sync
         working-directory: onnxruntime
       - run: rustup target add x86_64-unknown-linux-musl 
-      - run: cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika
-        env: 
-          ORT_LIB_LOCATION: "$(dirname $(pwd))/onnxruntime/build/Linux"
+      - run: export ORT_LIB_LOCATION="$(dirname $(pwd))/onnxruntime/build/Linux" && cargo build --target=x86_64-unknown-linux-musl --release --features=bin --bin magika
         working-directory: rust
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
